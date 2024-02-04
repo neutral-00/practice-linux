@@ -1,0 +1,149 @@
+
+## Learning Objective
+<section>
+- setup virtual box in windows 11 laptop
+- using it create a virtual machine with ubuntu as the OS.
+- start ubuntu
+- stop ubuntu
+</section>
+
+
+### Install Virtualbox In Windows 11
+<section>
+- google virtualbox OR click on the link: https://www.virtualbox.org/
+- click on: Download Virtual Box {X}.0 | for me X was 7
+- click on windows host link and download will be initiated
+- once downloaded, click on the exe file and proceed as per the installation wizard
+- you might get a popup saying:
+Oracle VM VirtualBox 7.0.14 needs Microsoft Visual C++ 2019 Redistributable Package being installed first.
+Please install and restart the installation of Oracle VM VirtualBox 7.0.14
+
+- follow the [install Microsoft Visual C++ 2019 Redistributable Package] steps below and come back
+- I updated the installation location to : D:\Program Files\Oracle\VirtualBox
+- click next
+- There will be warning related to Network Interface, click Next
+- I also got another warning on Missing dependencies Python Core / win32api
+The win32api module is used to interact with the Windows system and 
+is required for advanced features such as handling virtual machines with commands and using things from your computer in your virtual machines 
+
+- Installing the Python Core/win32api module will give you all the virtualization powers of VirtualBox.
+- refer the [install Python Core/win32api] below
+</section>
+
+
+### Install Microsoft Visual C++ 2019 Redistributable Package
+<section>
+- checkout this tutorial: https://www.youtube.com/watch?v=xKTKgjUHu48
+- google Microsoft Visual C++ 2019 Redistributable Package
+- click on first link: https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist?view=msvc-170
+- click on [Visual Studio 2015, 2017, 2019, and 2022]
+- click on link for the x64
+- once downloaded install it.
+- restart your pc, and start virtualbox installation again.
+- Follow the instructions and complete the installation for VirtualBox.
+</section>
+
+
+### Install Python Core/win32api
+<section>
+- refer [How to Fix Missing Dependencies Python Core / win32api in VirtualBox](https://www.sysnettechsolutions.com/en/fix-python-win32api-virtualbox/)
+- download python from https://www.python.org/downloads/
+- For me the installation location is D:\Program Files\Python\Python312
+- Now, open PowerShell/CMD as admin, and type “py -m pip install pywin32” to install pywin32.
+- If you see a new Pip update, run the command below to update it quickly
+python.exe -m pip install --upgrade pip
+- run the pip install for pywin32 again:
+$ py -m pip install pywin32
+Requirement already satisfied: pywin32 in d:\program files\python\python312\lib\site-packages (306)
+</section>
+
+
+### Create a Virtual Machine With Ubuntu as the OS
+<section>
+- refer this blog: https://ubuntu.com/tutorials/how-to-run-ubuntu-desktop-on-a-virtual-machine-using-virtualbox#1-overview
+- visit https://ubuntu.com/download/desktop
+- download the ISO by clicking on [Download 22.04.3](https://ubuntu.com/download/desktop/thank-you?version=22.04.3&architecture=amd64)
+- run VirtualBox
+- *Create a new virtual machine*
+	- Click Machine>New
+	- Fill the details
+		- name: ubuntu
+		- folder: D:\Program Data\VirtualBox VMs
+		- ISO image: C:\Users\toarv\Downloads\ubuntu-22.04.3-desktop-amd64.iso
+	- click Next
+	- change the username and password to create user without sudo access.
+		- username: linuxuser00
+		- password: Lxxxxxx_00
+		- hostname: ubuntu
+		- domainname: myguest.virtualbox.org
+		- guest additions | checked
+		- install in background | leave unchecked
+	- if you use default, user will be created without sudo access.
+	- click Next
+	- Virtual Machine’s resources
+		- For good performance it’s recommended to provide your VM with around 8GB of RAM (althought 4GB will still be usable) and 4 CPUs
+		- Try to remain in the green areas of each slider to prevent issues with your machine
+		- base memory: 8192
+		- processors: 8
+	- click Next
+	- Set the virtual harddisk.
+		- For Ubuntu recommended around 25 GB as a minimum.
+		- I have given 50 GB
+		- By default the hard disk will scale dynamically as more memory is required up to the defined limit.
+	- Click Next
+	- Review the details
+		- host/domain name is: ubuntu.myguest.virtualbox.org
+	- Click Finish
+	- Install Image
+		- Click Start to launch the virtual machine.
+		- You will see a message saying ‘Powering VM up …’ and your desktop window will appear
+		- On first boot the unattended installation will kick in so do not interact with the prompt
+		- let it progress automatically to the splash screen and into the installer
+		- If you chose not to use unattended install then you will need to progress through the Ubuntu install manually.
+			- you checkout the installation guide here: https://ubuntu.com/tutorials/install-ubuntu-desktop#4-boot-from-usb-flash-drive
+		- You will notice at this stage that the resolution of the window is fixed at 800x600. 
+		- This is because the Guest Additions features are not installed until after the Ubuntu installation has completed.
+		- Once the installation completes, the machine will automatically reboot to complete the installation.
+		- Finally you will be greeted with the Ubuntu log-in screen where you can enter your username and password defined during the initial setup
+	- Enjoy your shiny new Ubuntu Desktop!
+</section>
+
+	
+### Add User To Sudoers List
+<section>
+- somehow I missed to add the user to sudoers list
+- https://askubuntu.com/questions/1440032/virtualbox-ubuntu-22-04-how-to-add-sudo-rights
+$ su -
+$ password: {enter the same password entered during virtual machine creation: Lxxxxxx_00}
+$ usermod -a -G sudo linuxuser00
+- Then log out and back in for changes to take effect.
+</section>
+
+
+### Recommended
+<section>
+- open a terminal and run `sudo apt update && sudo apt upgrade -y` and then `sudo snap refresh` to get everything updated
+</section>
+
+
+### Shuting Down VM	
+<section>
+- Once you’ve finished your session you can close your machine by clicking the X in the top right of the window and 
+- choosing whether to keep your machine frozen in its current state or shut it down completely.
+</section>
+
+
+## Reference
+<section>
+- My Github repo for this tutorial: 
+- Refer this blog for setting up ubuntu using Virtualbox: https://ubuntu.com/tutorials/how-to-run-ubuntu-desktop-on-a-virtual-machine-using-virtualbox#1-overview
+- Refer this youtube tutorial for just virtualbox installation in windows  (https://www.youtube.com/watch?v=aBWKLva_yFo)
+- Refer this youtube tutorial to install ubuntu via virtualbox https://www.youtube.com/watch?v=v1JVqd8M3Yc
+- Download links:
+	- VirtualBox: https://www.virtualbox.org/
+	- Ubuntu: https://ubuntu.com/download/desktop
+	- Python: https://www.python.org/downloads/
+	- Microsoft Visual C++ 2019 Redistributable Package: https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist?view=msvc-170
+	- VirtualBox manual: https://download.virtualbox.org/virtualbox/7.0.14/UserManual.pdf
+	- mine got downloaded at "C:\Users\toarv\Downloads\Oracle VirtualBox UserManual.pdf"
+</section>
