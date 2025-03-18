@@ -1,0 +1,23 @@
+
+## about info
+- another alternative source of documentation is info
+- try: info ls
+
+- info command without any arguments will displays an index of available topics. 
+You can browse through the topic list using the regular movement keys: arrows, Page Up, and Page Down.
+
+Some useful keys are: q to quit, h for help, and Enter to select a menu item.
+
+The topic which you view in an info page is called a node. The table lists the basic keystrokes for moving between nodes.
+Nodes are essentially sections and subsections in the documentation
+
+key		function
+n		Go to the next node
+p		Go to the previous node
+u		Move one node up in the index
+q		quit info
+
+## conventions
+- Items function like browser links and are identified by an asterisk (*) at the beginning of the item name.
+- Named items (outside a menu) are identified with double-colons (::) at the end of the item name.
+

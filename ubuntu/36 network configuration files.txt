@@ -1,0 +1,87 @@
+
+
+## Network Configuration Files
+- Network configuration files are essential to ensure that interfaces function correctly.
+- They are located in the /etc directory tree.
+- For Debian family configurations, can be found under /etc/network/
+- For Red Hat and SUSE family systems, can be found under /etc/sysconfig/network
+- Modern systems emphasize the use of Network Manager
+- Recent Ubuntu distributions include netplan, which is turned on by default
+- and supplants Network Manager.
+
+
+## Network Interfaces
+- are a connection channel between a device and a network.
+- can proceed through a network interface card (NIC
+- or can be more abstractly implemented as software.
+- Information about a particular network interface or all network interfaces can be reported by the ip and ifconfig utilities,
+- ip is newer than ifconfig and has far more capabilities
+- Some new Linux distributions do not install the older net-tools package
+- to which ifconfig belongs, and so you would have to install it if you want to use it.
+
+
+## ip
+- VIEW IP ADDRESS
+$ /sbin/ip addr show
+
+- view routing info
+$ /sbin/ip route show
+
+## ping
+- is used to check whether or not a machine attached to the network can receive and send data
+- type ping <hostname>
+- you can abort the execution of ping by typing CTRL-C, or by using the -c option
+- some hosts refuse to answer ping requests.
+
+
+## route
+- Data moves from source to destination by passing through a series of routers and potentially across multiple networks.
+- Servers maintain routing tables containing the addresses of each node in the network.
+- The IP routing protocols enable routers to build up a forwarding table that correlates final destinations with the next hop addresses.
+$ ip route
+default via 172.19.64.1 dev eth0 proto kernel
+172.19.64.0/20 dev eth0 proto kernel scope link src 172.19.71.42
+- some commands that can be used to manage IP routing:
+ip route		:		Show current routing table
+ip route add	:		Add static route
+ip route del	:		Delete static route
+
+
+## traceroute
+- is used to inspect the route which the data packet takes to reach the destination host
+- By using traceroute, you can isolate connectivity issues between hops
+- To print the route taken by the packet to reach the network host, at the command prompt, type traceroute <address>.
+
+## More Networking Tools
+ethtool			:		Queries network interfaces and can also set various parameters such as the speed
+netstat			:		Displays all active connections and routing tables; useful for monitoring performance and troubleshooting
+nmap			:		Scans open ports on a network; important for security analysi
+tcpdump			:		Dumps network traffic for analysis
+iptraf			:		Monitors network traffic in text mode
+mtr				:		Combines functionality of ping and traceroute and gives a continuously updated display
+dig				:		Tests DNS workings; a good replacement for host and nslookup
+
+## lab
+- restart the network and/or NetworkManager
+
+student:/tmp> sudo systemctl restart NetworkManager
+student:/tmp> sudo systemctl restart network
+student:/tmp> sudo service NetworkManager restart
+student:/tmp> sudo service network restart
+
+- If your device was up but had no IP address, the above should have helped fix it, but you can try to get a fresh address with
+student:/tmp> sudo dhclient eth0
+- substituting the right name for the Ethernet device.
+- If your interface is up and running with an assigned IP address and you still cannot reach google.com,
+- we should make sure you have a valid hostname assigned to your machine, with hostname:
+student:/tmp> hostname
+- see if the site is up and reachable with ping:
+student:/tmp> sudo ping -c 3 google.com
+- We have used -c 3 to limit to 3 packets; otherwise ping would run forever until forcibly terminated, say with CTRL-C 
+
+- Note that there is another file, /etc/hosts, where you can associate names with IP addresses, 
+- which is used before the DNS server is consulted. This is most useful for specifying nodes on your local network.
+
+- Note, an enhanced version of traceroute is supplied by mtr, which runs continuously (like top). 
+- Running it with the --report-cycles option to limit how long it runs:
+student:/tmp> sudo mtr --report-cycles 3 8.8.8.8

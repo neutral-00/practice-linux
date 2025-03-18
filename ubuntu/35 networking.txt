@@ -1,0 +1,165 @@
+
+
+## Learning Objective
+- basic networking concepts
+- Configure network interfaces using ifconfig, ip, ping, route and traceroute.
+- Use graphical and non-graphical browsers, such as Lynx, w3m, Firefox, Chrome and Epiphany.
+- Transfer files to and from clients and servers using both graphical and text mode applications, such as scp, ftp, sftp, curl and wget.
+
+## basic concepts
+- The computers connected over a network are called nodes.
+- Networking is used to
+	- share music and video servers, printers, and scanners
+	- Share and manage information such as databases and file systems across computers
+- The Internet is the largest network in the world.
+- Devices attached to a network must have at least one unique network address identifier known as the IP.
+- Exchanging information across the network requires using streams of small packets
+- These packets contain data buffers, together with headers which contain information about
+	- where the packet is going to
+	- and coming from
+	- and where it fits in the sequence of packets that constitute the stream.
+	
+### IPv4 and IPv6
+- These are two different types of IP versions. 	
+- IPv4 is older and by far the more widely used
+- IPv6 is newer and is designed to get past limitations inherent in the older standard
+- IPv4 uses 32-bits for addresses thus 4.3 billion unique addresses available.
+- IPv6 uses 128-bits for addresses thus 3.4 X 1038 unique addresses
+- warning:
+	- moving equipment and addresses to IPv6 requires significant effort.
+- One reason IPv4 has not disappeared is because 
+	- there are widely-used ways to effectively make many more addresses available by methods such as NAT (Network Address Translation).
+- NAT:
+	- NAT enables sharing one IP address among many locally connected computers
+	- each of which has a unique address only seen on the local network.
+	- For example, if you have a router hooked up to your Internet Provider 
+	- it gives you one externally visible address,
+	- but issues each device in your home an individual local address, which is invisible to the outside world.
+	
+### Decoding IPv4 Addresses
+- A 32-bit IPv4 address is divided into four 8-bit sections called octets
+- Example:
+IP address →            172  .          16  .          31  .         46
+Bit format →     10101100.00010000.00011111.00101110
+- Network addresses are divided into five classes: A, B, C, D and E
+- Classes A, B and C are classified into two parts:
+	- Network addresses (Net ID): used to identify the network
+	- Host address (Host ID): used to identify a host in the network
+- Class D is used for special multicast applications
+	- information is broadcast to multiple computers simultaneously
+- Class E is reserved for future use
+
+#### Class A
+- The first bit of the first octet is always set to zero. So you can use only 7-bits for unique network numbers.
+- As a result, there are a maximum of 126 Class A networks available
+- As the use of the Internet expanded, Classes B and C were added in order to accommodate the growing demand for independent networks.
+- Each Class A network can have up to 16.7 million unique hosts on its network
+- The range of host addresses is from 1.0.0.0 to 127.255.255.255.
+- The value of an octet can range from 0 to 255
+
+
+#### Class B
+- uses the first two octets of the IP address as their Net ID and the last two octets as the Host ID.
+- The first two bits of the first octet are always set to binary 10
+- so there are a maximum of 16,384 (14-bits) Class B networks.
+- The first octet of a Class B address has values from 128 to 191
+- Each Class B network can support a maximum of 65,536 unique hosts on its network.
+- The range of host addresses is from 128.0.0.0 to 191.255.255.255
+
+
+#### Class C
+- use the first three octets of the IP address as their Net ID and the last octet as their Host ID
+- The first three bits of the first octet are set to binary 110.
+- so almost 2.1 million (21-bits) Class C networks are available
+- The first octet of a Class C address has values from 192 to 223
+- These are most common for smaller networks which don't have many unique hosts.
+- Each Class C network can support up to 256 (8-bits) unique hosts
+- The range of host addresses is from 192.0.0.0 to 223.255.255.255
+	
+
+## IP Address Allocation
+- Typically, a range of IP addresses are requested from your Internet Service Provider (ISP) by your organization's network administrator.
+- Often, your choice of which class of IP address you are given depends on 
+	- the size of your network and
+	- expected growth needs
+- If NAT is in operation, such as in a home network, you only get one externally visible address!
+- You can assign IP addresses to computers over a network either manually or dynamically. 
+- Manual assignment adds static (never changing) addresses to the network. 
+- Dynamically assigned addresses can change every time you reboot
+	- or even more often; the Dynamic Host Configuration Protocol (DHCP) is used to assign IP addresses.
+
+## Name Resolution
+- Name Resolution is used to convert numerical IP address values into a human-readable format known as the hostname
+- For example, 3.13.31.214 is the numerical IP address that refers to the hostname linuxfoundation.org
+- Given an IP address, you can obtain its corresponding hostname.
+- You can view your system’s hostname simply by typing hostname with no argument.
+- The special hostname localhost is associated with the IP address 127.0.0.1 and describes the machine you are currently on.
+
+
+## important files and commands to lookout for
+$ cat /etc/resolv.conf
+# This file was automatically generated by WSL. To stop automatic generation of this file, add the following entry to /etc/wsl.conf:
+# [network]
+# generateResolvConf = false
+nameserver 172.19.64.1
+
+$ cat /etc/hosts
+# This file was automatically generated by WSL. To stop automatic generation of this file, add the following entry to /etc/wsl.conf:
+# [network]
+# generateHosts = false
+127.0.0.1       localhost
+127.0.1.1       Neutral00.      Neutral00
+
+# The following lines are desirable for IPv6 capable hosts
+::1     ip6-localhost ip6-loopback
+fe00::0 ip6-localnet
+ff00::0 ip6-mcastprefix
+ff02::1 ip6-allnodes
+ff02::2 ip6-allrouters
+
+
+$ host linuxfoundation.org
+linuxfoundation.org has address 3.13.31.214
+linuxfoundation.org mail is handled by 5 ALT2.ASPMX.L.GOOGLE.COM.
+linuxfoundation.org mail is handled by 10 ALT3.ASPMX.L.GOOGLE.COM.
+linuxfoundation.org mail is handled by 10 ALT4.ASPMX.L.GOOGLE.COM.
+linuxfoundation.org mail is handled by 1 ASPMX.L.GOOGLE.COM.
+linuxfoundation.org mail is handled by 5 ALT1.ASPMX.L.GOOGLE.COM.
+ASPMX.L.GOOGLE.COM has address 142.251.175.26
+ASPMX.L.GOOGLE.COM has IPv6 address 2404:6800:4003:c06::1b
+ALT1.ASPMX.L.GOOGLE.COM has address 173.194.202.26
+ALT1.ASPMX.L.GOOGLE.COM has IPv6 address 2607:f8b0:400e:c00::1b
+ALT2.ASPMX.L.GOOGLE.COM has address 142.250.141.27
+ALT2.ASPMX.L.GOOGLE.COM has IPv6 address 2607:f8b0:4023:c0b::1b
+ALT3.ASPMX.L.GOOGLE.COM has address 142.250.115.26
+ALT3.ASPMX.L.GOOGLE.COM has IPv6 address 2607:f8b0:4023:1004::1a
+ALT4.ASPMX.L.GOOGLE.COM has address 64.233.171.26
+ALT4.ASPMX.L.GOOGLE.COM has IPv6 address 2607:f8b0:4003:c15::1b
+
+s$ nslookup linuxfoundation.org
+Server:         172.19.64.1
+Address:        172.19.64.1#53
+
+Non-authoritative answer:
+Name:   linuxfoundation.org
+Address: 3.13.31.214
+
+s$ dig linuxfoundation.org
+
+; <<>> DiG 9.18.18-0ubuntu0.22.04.1-Ubuntu <<>> linuxfoundation.org
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 19343
+;; flags: qr rd ad; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 0
+;; WARNING: recursion requested but not available
+
+;; QUESTION SECTION:
+;linuxfoundation.org.           IN      A
+
+;; ANSWER SECTION:
+linuxfoundation.org.    0       IN      A       3.13.31.214
+
+;; Query time: 10 msec
+;; SERVER: 172.19.64.1#53(172.19.64.1) (UDP)
+;; WHEN: Wed Dec 27 18:12:15 IST 2023
+;; MSG SIZE  rcvd: 72

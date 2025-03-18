@@ -1,0 +1,35 @@
+
+## Graphical and Non-Graphical Browsers
+- The common graphical browsers used in Linux are:
+
+Firefox
+Google Chrome
+Chromium
+Konqueror
+Opera
+
+- you can use non-graphical browsers
+lynx		:		Configurable text-based web browser; the earliest such browser and still in use
+elinks		:		Based on Lynx; it can display tables and frames
+w3m			:		Another text-based web browser with many features
+
+
+## wget
+- use it when you want to download multiple files and/or directories,
+- you want to perform the action from a command line or a script.
+- wget is a command line utility that can capably handle the following types of downloads:
+	- Large file downloads
+	- Recursive downloads, where a web page refers to other web pages and all are downloaded at once
+	- Password-required downloads
+	- Multiple file downloads.
+- To download a web page, you can simply type wget <url>,
+- and then you can read the downloaded page as a local file using a graphical or non-graphical browser.
+
+
+## curl
+- Besides downloading, you may want to obtain information about a URL, such as the source code being used.
+- curl can be used from the command line or a script to read such information.
+- curl also allows you to save the contents of a web page to a file, as does wget.
+- you can read a URL using curl <URL>
+- To get the contents of a web page and store it to a file, type curl -o saved.html http://www.mysite.com.
+

@@ -1,0 +1,19 @@
+
+## reference:
+> [screen recorders for linux](https://itsfoss.com/best-linux-screen-recorders/)
+> [obs-studio official site](https://obsproject.com/download?ref=itsfoss.com)
+
+
+## OBS Studio or Open Broadcaster Software Studio
+- I selected OBS because it is feature rich. and it is supported in all 3 OS
+- install:
+sudo add-apt-repository ppa:obsproject/obs-studio
+sudo apt update
+sudo apt install ffmpeg obs-studio
+
+### launch it from the terminal
+$ obs
+
+
+## Tutorial Reference
+> [Comprehensive OBS Tutorial by Olivia Brown](https://www.obsbot.com/blog/live-streaming/obs-for-youtube)

@@ -1,0 +1,87 @@
+
+## learning objectives
+- [x] Describe what a process is and distinguish between types of processes.
+- [x] Enumerate process attributes.
+- [x] Manage processes using ps and top.
+- [x] Understand the use of load averages and other process metrics.
+- [x] Manipulate processes by putting them in background and restoring them to foreground.
+- [x] Use at, cron, and sleep to schedule processes in the future or pause them.
+
+## process defn
+- an instance of one or more related tasks (threads) executing on your computer.
+- It is not the same as a program or a command
+- A single command may actually start several processes simultaneously. 
+- example process: a terminal window
+
+
+## types of processes
+- 1. Interactive Processes : Need to be started by a user. example: bash, firefox, top, Slack, Libreoffice
+- 2. Batch Processes: Automatic processes which are scheduled from and then disconnected from the terminal. 
+	- These tasks are queued and work on a FIFO (First-In, First-Out) basis.
+	- example: updatedb, ldconfig
+- 3. Daemons: Server processes that run continuously.
+	- example: httpd, sshd, libvirtd, cupsd
+- 4. Threads: Lightweight processes.
+	- These are tasks that run under the umbrella of a main process.
+	- they share memory and other resources
+	- An individual thread can end without terminating the whole process
+	- example: dconf-service, gnome-terminal-server
+- 5. Kernel Threads: Kernel tasks that users neither start nor terminate and have little control over.
+	- These may perform actions like 
+		- moving a thread from one CPU to another
+		- making sure input/output operations to disk are completed.
+	- example: kthreadd, migration, ksoftirqd
+	
+	
+## Scheduler
+- is a critical kernel function
+- it constantly shifts processes on and off the CPU
+
+## process states
+- a process can be either in 
+	- running state or 
+	- run queue (waiting to be executed)
+		- a computer having multiple cores will have a run queue in each core
+	- sleep state, sitting in a wait queue (like waiting for input from user)
+	- zombie state : a child process is completed but parent process has not asked about its state. 
+		- so it is not alive but shows up in the system's list of processes
+
+## tracking processes by ids
+- each process is tracked by assigning a unique id called pid or process id.
+- New PIDs are usually assigned in ascending order as processes are born.
+- the init process (system initialization process), has the first PID i.e. 1
+- Parent Process ID (PPID) | self explanatory
+- Thread ID (TID): This is the same as the PID for single-threaded processes. 
+	- For a multi-threaded process, each thread shares the same PID, but has a unique TID.
+	
+## terminating a process
+- syntax:
+kill -SIGKILL <pid> or kill -9 <pid>
+- for a normal user, only the owned processes can be killed.
+- super user can kill any process
+
+
+## process priorities
+- a CPU can actually accommodate only one task at a time
+- The priority for a process can be set by specifying a nice value
+- The lower the nice value, the higher the priority.
+- a nice value of -20 represents the highest priority and +19 represents the lowest.
+- u can change priority of a process using the renice command
+- to see list of processes with nice value give this command: ps lf
+- then note down the process id of the process which u want to change the priority
+- to recude nice value, type:
+sudo renice {-n} {PID}
+- n is the nice value.
+
+
+## load average
+- The load average is the average of the load number for a given period of time. 
+- It takes into account processes that are
+	- Actively running on a CPU
+	- Considered runnable, but waiting on the run queue for a CPU to become available
+	- Sleeping: i.e. waiting for some kind of resource (typically, I/O) to become available
+- The load average can be viewed by running w, top or uptime
+
+
+
+

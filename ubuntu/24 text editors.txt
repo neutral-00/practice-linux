@@ -1,0 +1,50 @@
+
+## intro
+- In this section, we learn first about the nano and gedit editors, which are relatively simple and easy to learn
+- later the more complicated choices, vi and emacs
+- Another product that has gained in usage and popularity is Microsoft’s Visual Studio Code, usually abbreviated as code when used in Linux
+- This is actually a fully featured integrated development environment and far from lightweight
+
+
+## Creating Files Without Using an Editor
+- Sometimes, you may want to create a short file and not want to bother invoking a full text editor
+- There are two standard ways to create one from the command line and fill it with content.
+
+
+## 1 using echo
+$ echo line one > myfile
+$ echo line two >> myfile
+$ echo line three >> myfile
+
+- a single greater-than sign (>) will send the output of a command to a file (and obliterate any already existing version of that file!
+- (>>) will append the new output to an existing file.
+
+## 2 using cat
+- use cat combined with redirection
+$ cat << EOF > myfile
+> line one
+> line two
+> line three
+> EOF
+$
+- In this example, the string used to show the beginning and end of the process need not be EOF
+- it could be STOP or any other string not used in the content itself.
+
+## graphical editor
+- As a graphical editor, gedit is part of the GNOME desktop system (kwrite is associated with KDE). 
+
+
+## nano
+- To open a file, type nano <filename> and press Enter. If the file does not exist, it will be created.
+- Display the help screen: CTRL-G
+- Write to a file: CTRL-O
+- Exit a file: CTRL-X
+- Insert contents from another file to the current buffer: CTRL-R
+- Show cursor position: CTRL-C
+
+
+## gedit
+- open a file: gedit <filename>.
+- If the file does not exist, it will be created.
+
+

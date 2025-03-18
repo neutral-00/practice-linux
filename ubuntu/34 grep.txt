@@ -1,0 +1,115 @@
+
+## grep
+- grep is extensively used as a primary text searching tool.
+- it scans files for specified patterns 
+- patterns can be regular expressions as well as simple strings
+- usage
+grep [pattern] <filename>		:		Search for a pattern in a file and print all matching lines
+grep -v [pattern] <filename>	:		Print all lines that do not match the pattern
+grep [0-9] <filename>			:		Print the lines that contain the numbers 0 through 9
+grep -C 3 [pattern] <filename>	:		Print context of lines (specified number of lines above and below the pattern) for matching the pattern. Here, the number of lines is specified as 3
+
+
+### example
+$ grep -C 1 Jagtap lastname.txt
+p01     Dubey
+p02     Jagtap
+p03 Dubey
+
+
+## strings
+- use it to extract printable strings from binary files like excel.
+- for text files use grep
+- example
+$ strings book1.xls | grep my_string
+
+## lab
+1. Find all entries in /etc/services that include the string ftp.
+2. Restrict to those that use the tcp protocol.
+3. Now restrict to those that do not use the tcp protocol, while printing out the line number.
+4. Get all strings that start with ft or end with la
+
+## Solution
+1. grep ftp /etc/services
+2. grep ftp /etc/services | grep tcp
+3. $ grep -n ftp /etc/services | grep -v tcp
+4. grep -e ^ft -e la$ /etc/services
+
+
+## miscellaneous text utilities
+- tr(translate)
+- syntax:
+$ tr [options] set1 [set2]
+- The items in the square brackets are optional.
+- set1 is the characters in the text to be replaced or removed
+- set2 is the characters that are to be substituted
+
+### examples:
+$ cat cities_india.txt | tr a-z A-Z
+COUNTRY:STATE:CITY
+INDIA:KARNATAKA:BANGALORE
+INDIA:KARNATAKA:MYSORE
+INDIA:KARNATAKA:MANDYA
+
+$ cat sample_js.txt
+function sayHello(){
+        console.log('hello');
+}
+$ cat sample_js.txt | tr '{}' '()'
+function sayHello()(
+        console.log('hello');
+)
+
+$ echo "This is for testing" | tr [:space:] '\t'
+This    is      for     testing
+
+$ echo "This   is   for    testing" | tr -s [:space:]
+This is for testing
+- s here is for squeeze
+
+$ echo "the geek stuff" | tr -d 't'
+he geek suff
+- d here is for delete
+
+$ echo "my username is 432234" | tr -cd [:digit:]
+432234
+- here c is for complement
+
+$ tr -cd [:print:] < file.txt
+- Remove all non-printable character from a file
+
+## tee
+- use this command to take the output from any command and save it to a file
+- example:
+$ ls -ll | tee dir_listing.txt
+
+
+## word count
+- wc (word count) counts the number of lines, words, and characters in a file or list of files.
+- options:
+	- l 	:	line count
+	- c 	:	byte count
+	- w 	:	word count
+	
+- example:
+$ wc -l sample_js.txt
+2 sample_js.txt
+
+## cut
+- cut is used for manipulating column-based files and is designed to extract specific columns.
+- The default column separator is the TAB character.
+- A different delimiter can be given as a command option
+- example:
+$ cat cities_india.txt
+country:state:city
+india:karnataka:bangalore
+india:karnataka:mysore
+india:karnataka:mandya
+india:karnataka:hubli
+$ cat cities_india.txt | cut -f3 -d ':'
+city
+bangalore
+mysore
+mandya
+hubli
+

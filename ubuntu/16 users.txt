@@ -1,0 +1,22 @@
+## users
+- multiple users can access a system simultaneously
+- each user can run multiple processes
+- Real User ID (RUID): operating system assigns each user a ruid
+	- ruid is used to identify who started a process.
+- Effective UID (EUID): The user who determines the access rights for the users is identified by the euid.
+	- euid determines the access rights of the user
+- ruid and euid may or may not be the same.
+
+## groups
+- Users can be organized into enumerated groups.
+- rgid is the group identifer.
+- egid determines the access rights of the group.
+	- RGID is used to identify which group started a process.
+	
+## add a user to sudoers list
+```sh
+su -
+sudo usermod -aG sudo newuser
+groups newuser
+```
+	

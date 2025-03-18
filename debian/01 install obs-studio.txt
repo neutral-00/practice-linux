@@ -1,0 +1,48 @@
+
+
+## install obs-studio
+```sh
+sudo apt-get install obs-studio
+```
+
+## while launching it I got graphics card error
+Failed to initialize video. Your GPU may not be supported, or your graphics drivers may need to be updated.
+
+- find out graphics card info:
+```sh
+lspci | grep VGA
+```
+I got:
+00:02.0 VGA compatible controller: Intel Corporation Mobile 4 Series Chipset Integrated Graphics Controller (rev 07)
+
+- check with desktop environment currently you are using
+```sh
+echo $XDG_CURRENT_DESKTOP
+```
+I got:
+GNOME
+
+- find out the session type
+```sh
+echo $XDG_SESSION_TYPE
+```
+I got:
+wayland
+
+
+- to find out about open GL version, install mesa-utils
+```sh
+sudo apt-get install mesa-utils
+```
+- then run
+```sh
+glxinfo | grep "OpenGL version"
+```
+If your OpenGL version is lower than 3.3, you might need to update your Mesa drivers.
+
+I got OpenGL version 2.1
+Since OBS Studio requires at least OpenGL 3.3 and your current version is 2.1, 
+luanch obs like below:
+```sh
+LIBGL_ALWAYS_SOFTWARE=1 obs
+```

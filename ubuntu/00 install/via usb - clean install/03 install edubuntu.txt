@@ -1,0 +1,20 @@
+
+## Reference
+- [youtube tutorial on ubuntu getting started from linux.tv](https://youtu.be/D4WyNjt_hbQ)
+- [youtube tutorial on quick feature walkthrough](https://youtu.be/wYVDt9a_7e4)
+
+## installation steps
+- insert the flash drive
+- restart the pc
+- press F12 or the appropriate function key for pc
+- use arrow keys to boot from usb
+- choose try out edubuntu
+- check if wifi is working
+- check some applications
+- if everything is fine.
+- repeat the installation steps and choose install
+- follow steps in the installation wizard and install it.
+
+
+## Further learnig
+- checkout: https://www.learnlinux.tv/

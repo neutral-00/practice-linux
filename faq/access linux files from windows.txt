@@ -1,0 +1,1 @@
+in the file explorer address bar type \\wsl$

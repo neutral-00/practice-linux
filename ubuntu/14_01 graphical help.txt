@@ -1,0 +1,8 @@
+
+## for ubuntu
+- warning: it didn't work in ubuntu in windows 11.
+- you can install the gnome-help or yelp as: sudo apt install yelp
+
+## online resources
+- download this pdf book by william shotts [here](https://sourceforge.net/projects/linuxcommand/)
+

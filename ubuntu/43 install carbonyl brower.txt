@@ -1,0 +1,28 @@
+
+
+== conclusion : tried and uninstalled
+- have tried out
+- but looks like it requires some sandbox id and didn't figure out how to setup one.
+- can run with the flag --no-sandbox
+- but running that way doesn't feel secure
+- tried visiting youtube, the images and videos were pixelated, not really a good experience
+- so uninstalled
+
+```sh
+wget https://github.com/fathyb/carbonyl/releases/download/v0.0.3/carbonyl.linux-amd64.zip
+unzip carbonyl.linux-amd64.zip
+# we got 
+chmod +x carbonyl-linux-amd64
+sudo mv carbonyl-linux-amd64 /usr/local/bin/carbonyl
+carbonyl --version
+```
+
+sudo rm -f /usr/local/bin/carbonyl
+sudo rm -f /usr/local/bin/icudtl.dat
+sudo rm -f /usr/local/bin/libcarbonyl.so
+sudo rm -f /usr/local/bin/libEGL.so
+sudo rm -f /usr/local/bin/libGLESv2.so
+sudo rm -f /usr/local/bin/libvk_swiftshader.so
+sudo rm -f /usr/local/bin/libvulkan.so.1
+sudo rm -f /usr/local/bin/v8_context_snapshot.bin
+sudo rm -f /usr/local/bin/vk_swiftshader_icd.json

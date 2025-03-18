@@ -1,0 +1,18 @@
+
+## backup
+- Basic ways to backup includes:
+	- simple copying with cp
+	- and use of the more robust rsync
+- rsync is more efficient, because it checks if the file being copied already exists.
+- Furthermore, because rsync copies only the parts of files that have actually changed
+- cp can only copy files to and from destinations on the local machine
+- but rsync can also be used to copy files from one machine to another
+
+
+## rsync
+- back up a project directory might be to use the following command:
+$ rsync -r project-X archive-machine:archives/project-X
+- It is highly recommended that you first test your rsync command using the -dry-run option
+- to ensure that it provides the results that you want
+- A good combination of options is shown in:
+$ rsync --progress -avrxH  --delete sourcedir destdir

@@ -1,0 +1,115 @@
+
+## info
+- At any given time, many processes are running (i.e. in the run queue) on the system.
+- However, a CPU can actually accommodate only one task at a time, just like a car can have only one driver at a time.
+- Some processes are more important than others
+- Linux allows you to set and manipulate process priority
+- Higher priority processes get preferential access to the CPU
+- The priority for a process can be set by specifying a nice value
+- The lower the nice value, the higher the priority.
+- a nice value of -20 represents the highest priority and +19 represents the lowest
+- You can also assign a so-called real-time priority to time-sensitive tasks.
+
+
+## see nice value
+```sh
+$ ps lf
+```
+- to set priority use the renice command: renice [-|+]{n} {pid}
+- example: renice -5 3770 
+
+## load average
+- The load average is the average of the load number for a given period of time.
+- It takes into account processes that are:
+	- Actively running on a CPU.
+	- Considered runnable, but waiting on the run queue for a CPU to become available.
+	- Sleeping: i.e. waiting for some kind of resource (typically, I/O) to become available.
+- The load average is displayed using three numbers:
+	- first number tells how much % system as been utilized for the last minute
+	- second number tells how much % system as been utilized for the last 5 minutes
+	- third number tells how much % system as been utilized for the last 15 minutes
+
+
+## background and foreground processes
+- Linux supports background and foreground job processing.
+- A job in this context is just a command launched from a terminal window.
+- when one foreground job is running, other jobs need to wait for shell access until it is completed.
+- so in case of long running logs, you can run the job in the background and free the shell for other tasks.
+- You can put a job in the background by suffixing & to the command, for example: updatedb &. 
+- use CTRL-Z to suspend a foreground job
+- use CTRL-C to terminate it
+- use the bg command to run a suspended process in the background
+- use the fg command to run a background process in the foreground
+- The jobs utility displays all jobs running in background
+- jobs -l provides the information along with pid.
+- if you log off, the jobs utility will not show the ones started from that window
+
+
+## see processes running
+- use ps -eLf to displays one line of information for every thread
+- remember process can contain multiple threads
+- use ps aux to view cpu and memory uses
+- use pstree to veiw the processes running on the system in the form of a tree diagram
+- i.e. the relationship between a process and its parent process
+- threads are displayed in curly braces. 
+
+## more about top command
+- use top command to monitor what processes are running in the system | updated every 2 seconds
+- The first line of the top output displays a quick summary of 
+	- How long the system has been u
+	- How many users are logged o
+	- What is the load average
+- The second line of top output displays:
+	- the total number of processes
+	- the number of running processes
+	- the number of running sleeping
+	- the number of running stopped
+	- the number of running zombie
+- The third line of the top output indicates cpu usage
+	- us is user
+	- sy is kernel
+	- ni is number of jobs running at lower priority
+	- ni is number of jobs at idle mode
+	- wa is number of jobs at waiting
+	- hi is number of jobs waiting hardware interrupts
+	- si is number of jobs waiting software interrupts
+	- st(steal time) is number of jobs taking some cpu time for other uses | generally used with virtual machines
+- The fourth line of top output indicates RAM memory usage
+	- total memory
+	- used memory
+	- free memory
+- The fifth line of top output indicates swap memory usage
+	- total memory
+	- used memory
+	- free memory
+- Then the following information about each process is displayed:
+	- PID: Process Identification Number
+	- USER: Process owner
+	- PR: Priority
+	- NI: Nice value
+	- VIRT: Virtual
+	- RES: Physical
+	- SHR: Shared
+	- %CPU: cpu usage
+	- %MEM: memory usage
+	- TIME+: Execution time
+	- COMMAND: command
+	
+## interactive keys with top 
+- h or ? displays the interactive keys
+- t toggles the row 2 and 3
+- m toggles the memory info
+- 1 (the digit one) shows info of each cpu 
+- d change the display update interval
+- A sort the process list by top resource consumers
+- r renice a specific pid
+- k kill a specific pid
+- f enter the top configuration screen
+- o interactively select a new sort order in the process list
+
+## top alternatives
+- also tryout atop/btop/htop
+
+	
+
+	

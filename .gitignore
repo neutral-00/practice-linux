@@ -1,0 +1,5 @@
+# Ignoring powerpoint files as they are huge in size
+# I have kept them in buymeacoffee.com
+*.pptx
+personal/
+archive/

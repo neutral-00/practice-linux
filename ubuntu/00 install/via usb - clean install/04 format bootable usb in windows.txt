@@ -1,0 +1,20 @@
+## Learning Objective
+- [] Learn how to format a bootable usb back to normal usb using windows 11
+
+
+## Steps
+- open cmd and type 
+$ DISKPART
+- it will open a new terminal, in that type 
+$ LIST DISK
+- carefully observe there will be a disk with free space as 0 and size nearly to ur usb capacity
+- Then type something like (update the disk number accordingly)
+$ SELECT Disk 1
+$ CLEAN
+$ CREATE PARTITION PRIMARY
+$ ACTIVE
+$ format fs=exFAT`
+- I have formatted in exFAT as is compatible with windows and linux
+$ ASSIGN
+$ EXIT
+

@@ -1,0 +1,12 @@
+
+## info
+- Most commands have an available short description which can be viewed using the --help or 
+- the -h option along with the command or application.
+- example: man --help
+mkdir --help
+
+
+## yet another source of documentation
+- you can launch graphical help using the below commands
+GNOME: gnome-help or yelp
+KDE: khelpcenter

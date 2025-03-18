@@ -1,0 +1,32 @@
+
+## Reqular Expressions
+- are text strings used for matching
+	- a specific pattern,
+	- a specific location, such as the start or end of a line or a word.
+- can contain both normal characters or so-called meta-characters, such as * and $
+
+## Utilities supporting Regex
+- Many text editors and utilities such as vi, sed, awk, find and grep work extensively with regular expressions
+
+
+## Search patters and usage
+.(dot)		:		Match any single character
+a|z			:		Match a or z
+$			:		Match end of a line
+^			:		Match beginning of a line
+*			:		Match preceding item 0 or more times
+
+
+
+## lab
+- create a file as below:
+$ cat brown_fox.txt
+the quick brown fox jumped over the lazy dog.
+
+- try out
+a..
+b.|j.
+..$
+l.*y
+the.*
+

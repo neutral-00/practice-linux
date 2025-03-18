@@ -1,0 +1,112 @@
+
+## at utility
+- use the at utility program to execute any non-interactive command at a specified time
+```sh
+$ at now + 2 days
+at> # now issue a command
+at> echo "hi"
+at> # hit CTRL-D to quit
+at> <EOD>
+job 104 at Tue Nov 29 13:05:00 2023
+$ # check on scheduled job
+$ atq
+job 104 at Tue Nov 29 13:05:00 2023 a neutral00
+$ # remove the scheduled job
+$ atrm 104
+```
+
+## cron
+- use cron utility to launch routine background jobs at specific times and/or days on an ongoing basis.
+- cron is driven by a configuration file called /etc/crontab , known as cron table
+- this config contains the various shell commands that need to be run at the properly scheduled times.
+- There are both system-wide crontab files and individual user-based ones.
+- Each line of a crontab file represents a job
+	- is composed of a so-called CRON expression, followed by a shell command to execute
+- Typing crontab -e will open the crontab editor to edit existing jobs or to create new jobs
+
+### cron tab fields
+- Each line of the crontab file will contain 6 fields:
+	- 1. MIN or minutes | 0-59
+	- 2. HOUR | 0-23
+	- 3. DOM or day of the month | 1-31
+	- 4. MON or month | 1-12
+	- 5. DOW or day of week | 0-6, 0 being sunday
+	- 6. CMD or command
+	
+### examples
+* * * * * /usr/local/bin/execute/this/script.sh
+- will execute the script.sh every minute, every hour, every day.
+30 08 10 06 * /home/sysadmin/full-backup
+- will schedule a full-backup at 8:30 am on 10th June irrespective of the day of the week.
+
+
+### anacron
+- is a newer utility.
+- cron implicitly assumed the machine was always running
+- However, If the machine was powered off, scheduled jobs would not run.
+- anacron will run the necessary jobs in a controlled and staggered manner when the system is up and running.
+- The key configuration file is /etc/anacrontab
+- It defers running them until opportune times when the system is actually alive.
+
+
+### sleep
+- use this utility to make a process sleep(wait) until it can complete its work.
+- example: 
+	- a process has prepared a report and needs to save it to a backup system.
+	- but backup system is currently unavailable, then make the process sleep.
+- sleep suspends execution for at least the specified period of time
+- by default time is in seconds.
+- you can provide it in minutes/hours/days
+- syntax: sleep {n}[suffix]
+
+### use at for batch processing
+- Create the file testat.sh containing:
+```sh
+#!/bin/bash
+date > /tmp/datestamp
+```
+- make it executable and queue it up with at
+```sh
+$ chmod +x testat.sh
+$ at now + 1 minute -f testat.sh
+```
+- Make sure the job actually ran: cat /tmp/datestamp
+
+### schedule a periodic task with cron
+
+Set up a cron job to do a simple task every day at 10 AM. Create a file named mycrontab with the following content:
+
+0 10 * * * /tmp/myjob.sh
+
+and then create /tmp/myjob.sh containing:
+
+#!/bin/bash
+echo Hello I am running $0 at $(date)
+
+and make it executable:
+
+$ chmod +x /tmp/myjob.sh
+
+Put it in the crontab system with:
+
+$ crontab mycrontab
+
+and verify it was loaded with:
+
+$ crontab -l
+
+0 10 * * * /tmp/myjob.sh
+$ sudo ls -l /var/spool/cron/student
+-rw------- 1 student student 25 Apr 22 09:59 /var/spool/cron/student
+$ sudo cat /var/spool/cron/student
+0 10 * * * /tmp/myjob.sh
+
+NOTE: If you don't really want this running every day, printing out messages like:
+
+Hello I am running /tmp/myjob.sh at Wed Apr 22 10:03:48 CDT 2015
+
+and mailing them to you, you can remove it with:
+
+$ crontab -r
+
+If the machine is not up at 10 AM on a given day, anacron will run the job at a suitable time.

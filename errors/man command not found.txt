@@ -1,0 +1,9 @@
+## Error Message
+bash: man: command not found
+
+## Reference
+https://code2care.org/linux/fix-bash-man-command-not-found/
+
+## Fix
+- you need to install the man package
+apk add man

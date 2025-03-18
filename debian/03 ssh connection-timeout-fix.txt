@@ -1,0 +1,18 @@
+
+- perform the below changes in the remote machine where ssh server is running
+```sh
+## open the config
+sudo nvim /etc/ssh/sshd_config
+```
+
+## seach and modify the below properties
+ClientAliveInterval 30
+ClientAliveCountMax 5
+
+- This will send a keepalive message every 30 seconds, 
+- and if no response is received after 5 messages, the connection will be terminated.
+
+## restart ssh
+```sh
+sudo systemctl restart sshd
+```

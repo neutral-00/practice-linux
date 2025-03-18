@@ -1,0 +1,5 @@
+first cd to /mnt
+give a ls command to see the list of windows drives
+now you can access d drive like cd /mnt/d
+
+example cd /mnt/d/'Github Projects'/'sample files'

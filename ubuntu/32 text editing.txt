@@ -1,0 +1,234 @@
+
+## Learning objective
+- usage of cat, echo, sed, awk, grep
+
+
+## cat
+- cat is short for concatenate
+- It is often used to read and print files
+- as well as for simply viewing file contents
+
+### usage
+- view file content
+```sh
+$ cat {filename}
+```
+- the tac command prints the contents in reverse order.
+
+### commands and usage
+cat file1 file2		:		display the the entire content of file1 followed by file2
+cat file1 file2 > newfile		:		combile file1 and file2 to newfile
+cat file >> existingfile		:		append file to existingfile
+cat > file		:		Any subsequent lines typed will go into the file, until CTRL-D is typed
+cat >> file		:		Any subsequent lines are appended to the file, until CTRL-D is typed
+cat > file << EOF		:		file is created and type the contents and to exit enter EOF at the beginning of a line.
+
+
+## echo 
+- echo simply displays text
+$ echo string
+- echo is particularly useful for viewing the values of environment variables
+- echo $USERNAME
+
+### echo usage
+echo string > newfile		:		The specified string is placed in a new file
+echo string >> existingfile	:		The specified string is appended to the end of an already existing file
+echo $variable				:		The contents of the specified environment variable are displayed
+
+## less
+- use less to view the contents of such a large file
+- scrolling up and down page by page,
+- without the system having to place the entire file in memory before starting. 
+- This is much faster than using a text editor.
+$ less somefile
+- By default, man pages are sent through the less command.
+
+## head
+- head reads the first few lines of each named file
+- by default it reads 10 lines
+
+### head usage
+$ head file.txt -n 5		:		reads the first 5 lines of file.txt
+
+
+## tail
+- tail prints the last few lines of each named file
+$ tail file.txt -n 5		:		reads the last 5 lines of file.txt
+
+To continually monitor new output in a growing log file:
+$ tail -f somefile.log
+
+
+## working with compressed files
+- there are various utilities to view compressed files.
+
+- some of them are :
+	- zcat, zless, zmore, zgrep, zdiff | associated with bzip
+	- xzcat, xzless, xzdiff, | associated with xz
+	- bzcat, bzless, bzdiff | associated with bzip2
+	
+## sed and awk
+- sed is a powerful text processing tool and is one of the oldest
+- It is used to modify the contents of a file or input stream, 
+- usually placing the contents into a new file or output stream
+- sed stands for stream editor
+- sed can filter text, as well as perform substitutions in data streams.
+- Data from an input source/file stream
+- and moved to a working space
+- modifications is applied over the data in the working space
+- and the final contents are moved to the standard output space
+
+### sed usage
+sed -e command <filename>		:		Specify editing commands at the command line | input from a file | put the output on console
+sed -f scriptfile <filename>	:		Specify a script file containing sed commands, operate on file, output on standard out
+echo "I hate you" | sed s/hate/love/	filter standard input and substitute hate with love
+sed s/pattern/replace_string/ file		Substitute first string occurrence in every line
+sed s/pattern/replace_string/g file		Substitute all string occurrences in every line
+sed 1,3s/pattern/replace_string/g file	Substitute all string occurrences in a range of lines
+sed -i s/pattern/replace_string/g file	Save changes for string substitution in the same file
+
+#### warning
+- You must use the -i option with care, because the action is not reversible. 
+- It is always safer to use sed without the –i option
+
+
+- The -e option allows you to specify multiple editing commands simultaneously at the command line
+- It is unnecessary if you only have one operation invoked
+- then replace the file yourself, as shown in the following example:
+$ sed s/pattern/replace_string/g file1 > file2
+- now view with cat file2
+- if everything looks good, do overwrite the original file with mv file2 file1.
+
+###  awk
+- awk is used to extract and then print specific contents of a file
+- often used to construct reports. 
+- It was created at Bell Labs in the 1970s and derived its name from the last names of its authors
+- Alfred Aho, Peter Weinberger, and Brian Kernighan
+- It is a powerful utility and interpreted programming language.
+- It is used to manipulate data files, and for retrieving and processing text.
+- It works well with fields (containing a single piece of data, essentially a column) and records (a collection of fields, essentially a line in a file)
+awk ‘command’  file		:		Specify a command directly at the command line
+awk -f scriptfile file	:		Specify a file that contains the script to be executed
+awk '{ print $0 }' /etc/passwd	:	Print entire file
+awk -F: '{ print $1 }' /etc/passwd	:	Print first field (column) of every line, separated by a colon
+awk -F: '{ print $1 $7 }' /etc/passwd	:	Print first and seventh field of every line
+
+
+### lab
+- Search for all instances of /sbin/nologin in /etc/passwd and replace them with /bin/bash (do not overwrite /etc/passwd).
+sed s/'\/sbin\/nologin'/'\/bin\/bash'/g /etc/passwd
+
+Note this is kind of painful and obscure because we are trying to use the forward slash (/) as both a string and a delimiter between fields
+Instead you can do:
+student:/tmp> sed s:'/sbin/nologin':'/bin/bash':g /etc/passwd
+In fact when doing this, we do not even need the single quotes:
+student:/tmp> sed s:/sbin/nologin:/bin/bash:g /etc/passwd
+
+### lab - extract the shells used by different users in /etc/passwd
+- search for shells used by different users in /etc/passwd
+- sort them
+- remove duplicates
+
+- solution:
+$ awk -F: '{print $7}' /etc/passwd | sort | uniq
+/bin/bash
+/bin/sync
+/usr/sbin/nologin
+
+
+
+## File Manipulation Utilities
+- Linux provides numerous file manipulation utilities that you can use while working with text files
+	- sort
+	- uniq
+	- paste
+	- join
+	- split
+
+
+### sort
+- sort is used to rearrange the lines of a text file
+- in either ascending or descending order according to a sort key
+- The default sort key is the order of the ASCII characters (i.e. essentially alphabetically).
+- usage
+sort <filename>		:		Sort the lines in the specified file, according to the characters at the beginning of each line
+cat file1 file2 | sort		:		Combine the two files, then sort the lines and display the output on the terminal
+sort -r <filename>		:		Sort the lines in reverse order
+sort -k 3 <filename>		:		Sort the lines by the 3rd field on each line instead of the beginning
+When used with the -u option, sort checks for unique values after sorting the records (lines)
+
+### uniq
+- uniq removes duplicate consecutive lines in a text file
+- Because uniq requires that the duplicate entries must be consecutive,
+- one often runs sort first and then pipes the output into uniq
+- if sort is used with the -u option, it can do all this in one step
+- To remove duplicate entries from multiple files at once, use the following command:
+sort file1 file2 | uniq > file3
+or
+sort -u file1 file2 > file3
+- To count the number of duplicate entries, use the following command:
+uniq -c filename
+
+
+### paste
+- can be used to create a single file containing various columns from multiple files
+- paste accepts the following options:
+	- -d delimiters, which specify a list of delimiters : 'space', 'tab', '|', 'comma' etc
+		- Each delimiter is used in turn; when the list has been exhausted, paste begins again at the first delimiter.
+		- by default tab is for separating consecutive values on a single line
+	- -s, which causes paste to append the data in series rather than in parallel; that is, in a horizontal rather than vertical fashion.
+- example
+$ paste file1.txt file2.txt -d ':'
+
+
+### join 
+- you can join two files based a common column
+- say you have two files : firstname.txt and lastname.txt
+$ cat firstname.txt
+pid     firstname
+p01     Rakesh
+p02     Suhaas
+$ cat lastname
+pid     lastname
+p01     Dubey
+p02     Jagtap
+$ join firstname.txt lastname.txt
+pid firstname lastname
+p01 Rakesh Dubey
+p02 Suhaas Jagtap
+
+
+### split
+- split is used to break up a file into equal-sized segments for easier viewing and manipulation
+- default size is 1000 lines
+- defaulf prefix is x
+- The original file remains unchanged,
+- a set of new files with the same name plus an added prefix is created.
+- syntax: split {filename} {prefix}
+- example:
+$ split somefile.txt --lines=5
+$ ls -lA
+-rwxrwxrwx 1 neutral00 neutral00   42 Dec 26 09:22 file1.txt
+-rwxrwxrwx 1 neutral00 neutral00   41 Dec 26 09:21 file2.txt
+-rwxrwxrwx 1 neutral00 neutral00   36 Dec 26 09:36 firstname.txt
+-rwxrwxrwx 1 neutral00 neutral00   34 Dec 26 09:38 lastname.txt
+-rwxrwxrwx 1 neutral00 neutral00 2764 Dec 26 09:48 somefile.txt
+-rwxrwxrwx 1 neutral00 neutral00   73 Dec 26 09:57 xaa
+-rwxrwxrwx 1 neutral00 neutral00  136 Dec 26 09:57 xab
+-rwxrwxrwx 1 neutral00 neutral00  108 Dec 26 09:57 xac
+-rwxrwxrwx 1 neutral00 neutral00  229 Dec 26 09:57 xad
+-rwxrwxrwx 1 neutral00 neutral00  289 Dec 26 09:57 xae
+-rwxrwxrwx 1 neutral00 neutral00  151 Dec 26 09:57 xaf
+-rwxrwxrwx 1 neutral00 neutral00  281 Dec 26 09:57 xag
+-rwxrwxrwx 1 neutral00 neutral00  186 Dec 26 09:57 xah
+-rwxrwxrwx 1 neutral00 neutral00  137 Dec 26 09:57 xai
+-rwxrwxrwx 1 neutral00 neutral00  165 Dec 26 09:57 xaj
+-rwxrwxrwx 1 neutral00 neutral00  127 Dec 26 09:57 xak
+-rwxrwxrwx 1 neutral00 neutral00   88 Dec 26 09:57 xal
+-rwxrwxrwx 1 neutral00 neutral00  175 Dec 26 09:57 xam
+-rwxrwxrwx 1 neutral00 neutral00  184 Dec 26 09:57 xan
+-rwxrwxrwx 1 neutral00 neutral00  277 Dec 26 09:57 xao
+-rwxrwxrwx 1 neutral00 neutral00  158 Dec 26 09:57 xap
+
+
+	

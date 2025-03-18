@@ -1,0 +1,22 @@
+
+
+## Creating Aliases
+- create aliases to customized commands or modify the behavior of already existing ones
+- placed aliases in your ~/.bashrc (think why)
+- to an alias use the command: unalias
+- example:
+$ alias la='ls -A'
+- Warning:
+	- there should not be any spaces on either side of the equal sign
+	- keep the alias definition within either single or double quotes if it contains any spaces
+
+
+## use case
+- suppose you are working on a group project.
+- you need to create/modify files in /home/staff/RandD/projects/projectX/src
+- create an alias say projx to cd into this path
+$ vim ~/.bashrc
+- add the below entry
+alias projx='cd /home/staff/RandD/projects/projectX/src'
+- lanch a new terminal and type
+$ projx

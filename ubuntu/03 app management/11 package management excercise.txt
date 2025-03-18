@@ -1,0 +1,93 @@
+
+## see list of installed packages
+$ dpkg --list
+
+
+## check if git is already installed
+$ dpkg -l | grep git
+OR
+$ which git
+returns the path of git if installed
+
+$ whereis git
+- returns git as well as git manual paths
+
+
+## install the cowsay packages
+$ sudo apt-get install cowsay
+You might get:
+E: Unable to locate package cowsay
+try updating your repository and run the install again
+$ sudo apt update
+To check if a package is available in the repository, you can use the following command:
+$ apt-cache search <package-name>
+Alternatively, you can use the following command to check if a package is available in the repository:
+$ apt-cache policy <package-name>
+This command will display the details of the package, including the version number and the repository it is available in. 
+If the package is not available in the repository, the command will return nothing.
+
+
+Once the installation is complete, you can use the cowsay command to generate ASCII art of a cow with a message.
+try out
+$ cowsay "hello"
+$ cowsay -l
+$ cowsay -f dragon "hello"
+
+
+## check how much disk space is used by a package
+$ dpkg-query -s <package-name> | grep Installed-Size
+- this will return the size in kilobytes
+OR alternatively, you can use the apt-cache command to check the disk space used by a package.
+$ apt-cache show <package-name> | grep Installed-Size
+- i think dpkg-query is more stable because when i tried for git, it gave me single value  where as apt-cache gave me 3 values
+
+## see the list of upgradable packages
+Run 'apt list --upgradable' to see them.
+
+## upgrade
+To update all the upgradable packages in Linux, you can use the following command:
+$ sudo apt-get update && sudo apt-get upgrade
+This command will update the package list and then upgrade all the installed packages to their latest versions. 
+If any new packages are available, they will also be installed.
+
+## check if any new version is available for a specific package
+$ apt list <packageName>
+or
+$ apt-cache policy <packageName>
+
+## install latest version of a specific package
+$ sudo apt-get install --only-upgrade <packagename>
+
+
+Alternatively, you can use the following command to upgrade all the upgradable packages:
+$ sudo apt-get dist-upgrade
+This command will perform a distribution upgrade and upgrade all the installed packages to their latest versions. 
+It will also remove any obsolete packages and install any new packages that are required 
+
+## info on distribution update
+A distribution upgrade is a process of upgrading the entire operating system to a new version. 
+It involves upgrading all the installed packages, including the kernel, libraries, and applications, to their latest versions.
+
+The dist-upgrade command is used to perform a distribution upgrade in Debian-based systems such as Ubuntu. 
+It is similar to the upgrade command, but it can also remove packages that are no longer needed and 
+install new packages that are required to resolve dependencies.
+
+The dist-upgrade command is more aggressive than the upgrade command and can potentially break the system if not used carefully. 
+It is recommended to take a backup of important data before performing a distribution upgrade.
+
+
+## uninstall package
+To uninstall a package in Linux, you can use the following command:
+$ sudo apt-get remove <package-name>
+Replace <package-name> with the name of the package you want to uninstall. 
+This command will remove the package from your system, 
+but it will not remove any configuration files associated with the package
+
+If you want to remove the package and its configuration files, you can use the following command:
+$ sudo apt-get purge <package-name>
+This command will remove the package and its configuration files from your system.
+
+$ sudo apt-get purge cowsay
+
+## see list of repositories currently added in the local machine
+$ sudo grep -rhE ^deb /etc/apt/sources.list*

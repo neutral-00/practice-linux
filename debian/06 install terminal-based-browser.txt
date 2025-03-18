@@ -1,0 +1,45 @@
+
+Carbonyl requires the same dependencies as Chromium
+```sh
+sudo apt update
+sudo apt install -y libasound2 libatk1.0-0 libc6 libcairo2 libcups2 libdbus-1-3 libexpat1 libfontconfig1 libfreetype6 libgcc1 libgdk-pixbuf2.0-0 libglib2.0-0 libgtk-3-0 libnspr4 libnss3 libpango-1.0-0 libpangocairo-1.0-0 libstdc++6 libx11-6 libxcomposite1 libxcursor1 libxdamage1 libxext6 libxfixes3 libxi6 libxrandr2 libxrender1 libxss1 libxtst6 zlib1g
+
+```
+
+Since Debian 32-bit isn't officially supported, you'll need to download the binary for Linux AMD64 and make it executable
+=== For 64 bit
+```sh
+wget https://github.com/fathyb/carbonyl/releases/download/v0.1.0/carbonyl-linux-amd64 -O /usr/local/bin/carbonyl
+sudo chmod +x /usr/local/bin/carbonyl
+```
+
+
+```sh
+# know your system architecture
+uname -m
+```
+
+== 32 bit
+```sh
+git clone https://github.com/fathyb/carbonyl.git
+cd carbonyl
+sudo apt-get update
+sudo apt-get install build-essential rustc cargo
+rm -rf ~/.cargo ~/.rustup
+sudo apt-get remove rustc cargo
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+
+rustup target add i686-unknown-linux-gnu
+sudo apt-get install linux-libc-dev
+
+
+
+rustup target install i686-unknown-linux-gnu
+# rustup default stable-i686-unknown-linux-gnu
+./scripts/build.sh --target i686-unknown-linux-gnu
+
+sudo cp target/i686/release/carbonyl /usr/local/bin/
+
+```
+== Tried the above steps - it didn't work out :(
+

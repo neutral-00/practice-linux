@@ -1,0 +1,82 @@
+
+## users and groups
+- All Linux users are assigned a unique user ID (uid) | normal users start with a uid of 1000 or greater
+- Linux uses groups for organizing users.
+- Groups are collections of accounts with certain shared permissions
+- Access rights to files (and devices) are granted on the basis of
+	- the user and
+	- the group they belong to
+- group membership is defined in the /etc/group file
+- By default, every user belongs to a default (primary) group
+- Users also have one or more group IDs (gid)
+- The default gid is the same as the user ID
+- These numbers are associated with names through the files /etc/passwd and /etc/group
+- For example: 
+	- /etc/passwd might contain john:x:1002:1002:John Garfield:/home/john:/bin/bash
+	- /etc/group might contain john:x:1002
+- To know the current user ui and group id type id with no arguments
+- To know info for another user pass that username as argument.
+	
+## Adding and removing users
+- Only the root user can add and remove users and groups
+- use the useradd command to add a user
+- use the userdel command to delete an existing user
+$ sudo useradd student -m -c "Linux Student" -s /bin/bash
+	- -m means create home directory
+	- -c provide the full name
+	- sets the home directory to /home/student
+	- copies some basic files from /etc/skel to it | skel is skeleton
+	- adds a line to /etc/passwd | student:x:1002:1002::/home/student:/bin/bash
+	- confirm if a user folder is created under home: ls /home
+	- set the password for the student account: $sudo passwd student | i kept: sxxxxxt
+	- login to the new user type: ssh student@localhost
+$ sudo userdel student
+	- deletes the user but leaves the /home/student directory intact
+	- use the -r option to delete the home directory as well while removing user
+	
+## adding and removing groups
+- Adding a new group is done with groupadd
+$ sudo /usr/sbin/groupadd anewgroup
+- The group can be removed with:
+$ sudo /usr/sbin/groupdel anewgroup
+- first look at what groups the user already belongs to
+$ groups student
+- Adding a user to an already existing group is done with usermod
+- warning: 
+	- make sure to use -a to append, so as to avoid removing already existing groups
+$ sudo /usr/sbin/usermod -a -G anewgroup student
+- it will update /etc/group
+- Removing a user from the group is somewhat trickier.
+
+## identify the currents or login users
+- To identify the current user, type whoami
+- To list the currently logged-on users, type who OR who -a
+
+
+## root account
+- The root account is the super admin
+- it has full access to the system
+- it is often called the superuser account
+- use sudo to assign more limited privileges to user accounts
+	- Only on a temporary basis
+	- Only for a specific subset of commands.
+
+## switch user
+- use the command su (switch or substitute user) to launch a new shell running as another user
+- enter the password of the user bieng switch to
+- The new shell allows the use of assigned privileges until it is exited.
+- It is almost always a bad pratice to switch to root
+- The preferred and less dangerouse is to use sudo.
+- sudo must be enabled on a per-user basis
+- user created during ubuntu installation is sudo enabled
+
+
+## Elevating to root Account
+- switch to root to temporarily become the superuser for a series of commands
+- use sudo to execute just one command with root privilege.
+- When the command is complete, you will return to being a normal unprivileged user.
+- sudo configuration files are stored in the
+	- /etc/sudoers.d/ directory and 
+	- /etc/sudoers file
+
+

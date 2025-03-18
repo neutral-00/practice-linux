@@ -1,0 +1,14 @@
+
+```sh
+soffice --show filname.odp
+```
+
+- this will work when run locally, but won't work if executed remotely.
+- for remote, follow the below steps to enable X11 forwarding
+- in the remote machine update /etc/ssh/sshd_config
+- set the X11Forwarding yes
+- and then ssh with -X like
+```sh
+ssh -X <username>@<hostip>
+soffice --show <filname>.odp
+```

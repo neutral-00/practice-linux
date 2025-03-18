@@ -1,0 +1,115 @@
+
+## Learning objective
+- command line utilities used to view files
+
+
+## commands to view file content
+- cat : use it to view files that are not very long as it does not provide scroll-back feature.
+- tac : use it to view files backwards
+- less : use it to view large files, it is a paging program. it provides search and scroll-back features.
+	- for forward search use /
+	- for backward search use ?
+	- press space to go to next page
+- tail : use it to view the last 10 lines. you can change the number of lines -n option.
+	- e.g. less hello.txt -n 15
+- head : use it to view the first 10 lines.
+
+## create , modify access and time of files
+- use touch command to 
+	- create empty files
+	- reset a file's timestamp to current time
+	- use -t option to set the date and timestamp of a file to a specific value
+
+
+## create & delete directory
+- use the command mkdir to create a directory. example: mkdir usr/sample
+	- use the -p option if you want to create directories and sub-directories at single shot.
+- use the command rmdir to remove or delete a directory. but there is a catch. 
+	- the directory must be empty else the command will fail.
+	- use the -rf option to remove the directory and its contents recursively. 
+		- use it cautiously as it will delete everything under the directory.
+	- use the -i option to remove files that match a pattern interactively.
+
+## move or rename a file
+- use the mv command to move a file or directory.
+
+
+## create a file
+- use any of the following ways to create a file
+	- $ echo > file1.txt
+	- $ touch file2.txt
+
+
+## standard input, output and error
+- In Linux, all open files are represented internally by what are called file descriptors
+- these are represented by numbers starting at zero
+- stdin is file descriptor 0
+- stdout is file descriptor 1
+- stderr is file descriptor 2.
+- if other files are opened, they will start at file descriptor 3
+- if a program reads input from stdin, we can change its input source by using the less-than sign (<) followed by the name of the input file.
+- example: $ your_program < input.txt
+- use > to send output to a file.
+- example: suppose you have a program called your_program, let it get its input from input.txt and send its output to output.txt
+$ your_program < input.txt > output.txt
+- If you want to redirect stderr to a separate file, you use stderr’s file descriptor number 2 as shown
+$ your_program 2> error_file.txt
+
+## pipes
+- You can pipe the output of one command or program into another as its input.
+$ command1 | command2 | command3
+
+## search files
+- You can search for files in both your home directory space, or in any other directory or location on the system.
+- use the locate and find utilities.
+- locate utilizes a database created by a related utility, updatedb.
+$ locate hello
+- Most Linux systems run this automatically once a day.
+- However, you can update it at any time by just running updatedb from the command line as the root user.
+- for find command it is not required.
+- example:
+$ find . -name "hello*" -ls
+- find recurses down the filesystem tree from the present working directory and locate the file that matches specified pattern.
+- use the -type option with 
+	- d : for directory
+	- l : for sybolic link
+	- f : for regular file
+- example: search for directory gcc under /usr
+$ find /usr -type d -name gcc
+/usr/share/gcc
+- find can run commands on the files that match the search criteria with -exec option
+- example: delete all js files 
+$ find -name "*.js" -exec rm {} ';'
+- the squiggly bracket is a placeholder that will be filled with filenames and the preceding command will be run on each one individually
+- and you need to end the command with ';' or \;
+- use -ok instead of -exec if you prefer interactive mode
+
+
+### use wildcards
+? 	Matches any single character
+*	Matches any string of characters
+[set]	Matches any character in the set of characters, for example [adf] will match any occurrence of a, d, or f
+[!set]	Matches any character not in the set of characters
+- example:
+$ ls fo?.txt
+- the above will list files like foo.txt or for.txt etc
+$ ls *.ts 
+- the above will find all typescript files
+
+### search based on last changed/access/modified/size
+- use the option -ctime n, here n is number | default is number of days
+- use the option -atime for last access
+- use the option -mtime for last modified
+- use the option -size to search by size
+- n can be
+	- n for exact match
+	- +n for greater than n
+	- -n for less than n
+- ctime is in days, equivalent in terms of minutes are
+	- cmin
+	- amin
+	- mmin
+- size by default is in 512 bytes block
+	- but you can specify in c(bytes)/k(kilobytes)/M(megabytes)/G(gigabytes)
+	- example: $ find / +10M
+

@@ -1,0 +1,106 @@
+
+## environment variables
+- An environment variable is actually just a character string that contains information used by one or more applications.
+- to see list of existing environment variables type
+	- set | head
+	- env | head
+	- export | head
+
+
+## Setting Environment Variables
+- By default, variables created within a script are only available to the current shell.
+- child processes (sub-shells) will not have access to values that have been set or modified.
+- use the export command to let the child processes access it.
+- Show the value of a specific variable:
+$ echo $SHELL
+/bin/bash
+- Export a new variable value
+export VARIABLE=value
+- Add a variable permanently
+	- Edit ~/.bashrc and add the above line
+	- Type source ~/.bashrc or
+	- start a new shell by typing bash
+	
+## The HOME Variable
+- HOME is an environment variable that represents the home directory of the login user.
+- ~ is used as an abbreviation for $HOME
+- cd ~ is same as cd $HOME
+
+
+## The PATH Variable
+- PATH is an ordered list of directories (the path) which is scanned when a command is given to find the appropriate program or script to run
+- Each directory in the path is separated by colons (:)
+- A null (empty) directory name (or ./) indicates the current directory at any given time
+
+## excersise
+- prefix a private bin directory to your path
+$ export PATH=$HOME/bin:$PATH
+$ echo $PATH
+
+
+## The SHELL Variable
+- The environment variable SHELL points to the user's default command shell
+- contains the full pathname to the shell
+
+
+## The PS1 Variable and the Command Line Prompt
+- Prompt Statement (PS) is used to customize your prompt string in your terminal windows
+- PS1 is the primary prompt variable which controls what your command line prompt looks like.
+- The following special characters can be included in PS1:
+\u - User name
+\h - Host name
+\w - Current working directory
+\! - History number of this command
+\d - Date
+
+- They must be surrounded in single quotes when they are used
+$ old_ps1=$PS1
+$ export PS1='\u:\w$ '
+$ ps1=$old_ps1
+
+- One can get quite fancy with the prompt and do things like add colors or even sounds!
+
+
+## lab
+First, create the phony ls program using an editor or just simply doing:
+
+student:/tmp>echo "echo HELLO, this is the phony ls program." > /tmp/ls
+student:/tmp>chmod +x /tmp/ls
+
+For the next two steps, it is a good idea to work in another terminal window, or just start a new shell, so the changes do not persist on later issued commands. You can start a new shell by just typing bash.
+
+student:/tmp>bash
+student:/tmp>PATH=$PATH:/tmp
+student:/tmp>ls /usr
+bin etc games include lib lib64 libexec local sbin share src tmp
+student:/tmp>exit
+student:/tmp>bash
+student:/tmp>PATH=/tmp:$PATH
+student:/tmp>ls /usr
+HELLO, this is the phony ls program.
+student:/tmp>exit
+Note the second form is a very dangerous thing to do, and is a trivial way to insert a Trojan Horse program; if someone can put a malicious program in /tmp, they can trick you into running it accidentally.
+
+- history of commands are stored in ~/.bash_history
+
+## more about history file
+$ echo $HISTFILE
+/home/{user_name}/.bash_history
+$ echo $HISTFILESIZE
+2000
+- the above is the maximum number of lines in the file.
+- to see the maximum number of commands in the file type
+$ echo $HISTSIZE
+1000
+$ echo $HISTCONTROL
+ignoreboth
+
+
+## Finding and Using Previous Commands
+Up/Down arrow keys		:		Browse through the list of commands previously executed
+!! (Pronounced as bang-bang)		:		Execute the previous command
+CTRL-R		:		Search previously used commands
+
+- execute command number 93 from the history list
+$ !93
+- execute the latest commmand starting with !al

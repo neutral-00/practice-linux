@@ -1,0 +1,6 @@
+To increase the font size in gVim, you can use the guifont option. Here are the steps to follow:
+
+Open gVim.
+Type :set guifont=* in the command line and press Enter. A window should pop up letting you set font size as well as pick a new font if desired.
+Once you have set the desired font size, type :set guifont? in the command line and press Enter. This will print the line you would need to add to your ~/.gvimrc to make the change permanent.
+For example, if you want to use 11-point Consolas in gVim on Windows, you can do something like: set guifont=Consolas:h11 1.

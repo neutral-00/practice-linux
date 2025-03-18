@@ -1,0 +1,2 @@
+## reference for ubuntu installation - official tutorial
+https://ubuntu.com/tutorials/install-ubuntu-desktop#1-overview

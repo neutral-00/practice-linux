@@ -1,0 +1,19 @@
+
+```sh
+sudo apt-get update
+sudo apt-get install postgresql postgresql-contrib
+sudo systemctl start postgresql
+# check if postgres is running
+sudo systemctl status postgresql
+
+
+# connect to database
+# cd into /var/lib/postgresql as the postgres user has permission to this location
+cd /var/lib/postgresql
+# launch psql
+sudo -i -u postgres
+# see list of database
+\l
+# quit
+\q
+```

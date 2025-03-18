@@ -1,0 +1,42 @@
+
+
+## file
+- In Linux, a file's extension does not, by default, categorize its nature the way it might in other operating systems.
+- The real nature of a file can be ascertained by using the file utility.
+- For the file names given as arguments, it examines the contents and certain characteristics to determine 
+- whether the files are plain text, shared libraries, executable programs, scripts, or something else
+
+For this exercise, you could use any text file, but we will use /etc/group as described.
+
+student:/tmp> cd /tmp
+student:/tmp> cp /etc/group /tmp
+student:/tmp> dd if=/tmp/group of=/tmp/GROUP conv=ucase
+2+1 records in
+2+1 records out
+1054 bytes (1.1 kB, 1.0 KiB) copied, 0.00048203 s, 2.2 MB/
+student:/tmp> diff -Nur group GROUP > patchfile
+student:/tmp> cat patchfile
+--- group       2015-04-17 11:03:26.710813740 -0500
++++ GROUP       2015-04-17 11:15:14.602813740 -0500
+@@ -1,68 +1,68 @@
+-root:x:0:
+-daemon:x:1:
+-bin:x:2:
+-sys:x:3:
+....
+-libvirtd:x:127:student
+-vboxsf:x:999:
++ROOT:X:0:
++DAEMON:X:1:
++BIN:X:2:
++SYS:X:3:
+.....
+student:/tmp> patch --dry-run group patchfile
+checking file group
+student:/tmp> patch group patchfile
+patching file group
+Note you could have also done either of these two commands:
+student:/tmp> patch group < patchfile
+student:/tmp> patch < patchfile
+student:/tmp> diff -s group GROUP
+student:/tmp> Files group and GROUP are identical

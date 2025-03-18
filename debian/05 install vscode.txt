@@ -1,0 +1,8 @@
+
+## due to 32 bit restriction better use the browser version
+- visit vscode.dev
+or 
+- get and older version
+```sh
+
+```

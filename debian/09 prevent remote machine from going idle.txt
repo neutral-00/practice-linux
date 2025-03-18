@@ -1,0 +1,62 @@
+
+== conclusion : nosuspend.conf works, check the last portion of this file
+- tried caffein but didn't work out well
+
+```sh
+gsettings set org.gnome.desktop.session idle-delay 0
+gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-ac-type 'nothing'
+gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-battery-type 'nothing'
+```
+
+in case you want to revert to default
+```sh
+gsettings set org.gnome.desktop.session idle-delay 300
+gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-ac-type 'suspend'
+gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-battery-type 'suspend'
+```
+
+- alternate approach | you disable these settings temporarily then try out caffeine
+```sh
+sudo apt update
+sudo apt install caffeine
+# caffeine requires PyObject, install it
+sudo apt install libcairo2-dev gobject-introspection
+pip3 install pycairo
+pip3 install pygobject
+
+caffeine &
+# to stop run the below command
+pkill caffeine
+```
+The caffeine tool will temporarily disable the screen saver and power saving features while it's running.
+The remote machine screen may go blank/black. That's ok. but the machine will not go idle if caffeine is running.
+- to check if caffeine is running run the below command
+```sh
+ps aux | grep caffein
+```
+
+To keep caffeine running even after logout run it as
+```sh
+export DISPLAY=:0
+nohup caffeine &
+```
+
+## even though caffeine was running in the background with even nohup, my session got disconnected.
+## so create a config and restart systemctl daemon
+```sh
+sudo mkdir -p /etc/systemd/sleep.conf.d
+sudo nvim /etc/systemd/sleep.conf.d/nosuspend.conf
+```
+- add the below contents:
+[Sleep]
+AllowSuspend=no
+AllowHibernation=no
+AllowSuspendThenHibernate=no
+AllowHybridSleep=no
+
+- Save and exit the editor with :wq
+- Restart the systemd service
+```sh
+sudo systemctl daemon-reload
+sudo systemctl restart systemd-logind
+```

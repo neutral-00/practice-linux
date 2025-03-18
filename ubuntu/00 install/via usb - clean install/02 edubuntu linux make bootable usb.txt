@@ -1,0 +1,11 @@
+
+
+## download the iso image from
+https://www.edubuntu.org/download
+
+
+## Flash to USB
+- insert the pendrive
+- open balena etcher
+- select the downloaded iso and flash it to the usb
+

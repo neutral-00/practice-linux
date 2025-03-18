@@ -1,0 +1,184 @@
+
+## understanding linux partitions
+- root or /: important programs required to run the system are often kept here.
+- /home: files owned by regular users of the system are kept here.
+- GParted utility can be used to see partitions.
+
+## mount point
+- Before you can start using a filesystem, you need to mount it on the filesystem tree at a mount point
+- it is simply a directory (which may or may not be empty).
+- WARNING: If you mount a filesystem on a non-empty directory,
+	- the former contents of that directory are covered-up 
+	- and not accessible until the filesystem is unmounted
+	
+- The mount command is used to attach a filesystem (which can be local to the computer or on a network) somewhere within the filesystem tree.
+- The basic arguments are the device node and mount point.
+- example: $ sudo mount /dev/sda5 /home
+- To unmount the partition, the command would be: $ sudo umount /home
+- Note the command is umount, not unmount!
+- to persist mount you need to edit /etc/fstab accordingly
+- fstab is filesystem table
+- man fstab will display how this file is used and how to configure it.
+- Executing mount without any arguments will show all presently mounted filesystems.
+- The command df -Th (disk free) will display information about mounted filesystems, 
+- including the filesystem type, and usage statistics about currently used and available space.
+- tmpfs are not physical filesystems but are parts of system memory
+
+
+## NFS
+- A network (also sometimes called distributed) filesystem may have all its data on one machine or have it spread out on more than one network node.
+- Many system administrators mount remote users' home directories on a server in order to 
+- give them access to the same files and configuration files across multiple client systems.
+- This allows the users to log in to different computers, yet still have access to the same files and resources.
+- The most common such filesystem is named simply NFS (the Network Filesystem).
+
+
+## how to use NFS on the server
+- On the server machine, NFS uses daemons (built-in networking and service processes in Linux)
+- and other system servers are started at the command line by typing
+$ sudo systemctl start nfs
+- NOTE: On some systems, such as RHEL/CentOS, and Fedora, the service is now called nfs-server, not nfs.
+- The text file /etc/exports contains the directories and permissions that a host is willing to share with other systems over NFS. 
+- A very simple entry in this file may look like the following:
+
+/projects *.example.com(rw)
+
+- This entry allows the directory /projects to be mounted using NFS with read and write (rw) permissions
+- and shared with other hosts in the example.com domain.
+- every file in Linux has three possible permissions: read (r), write (w) and execute (x).
+- After modifying the /etc/exports file, you can type exportfs -av to notify Linux
+- about the directories you are allowing to be remotely mounted using NFS. 
+- You can also restart NFS with sudo systemctl restart nfs, but this is heavier, as it halts NFS for a short while before starting it up again. 
+- To make sure the NFS service starts whenever the system is booted, issue sudo systemctl enable nfs
+
+## NFS on client
+- On the client machine, if it is desired to have the remote filesystem mounted automatically upon system boot
+- /etc/fstab is modified to accomplish this
+- For example, an entry in the client's /etc/fstab might look like the following:
+servername:/projects /mnt/nfs/projects nfs defaults 0 0
+- Furthermore, you may want to use the nofail option in fstab in case the NFS server is not live at boot.
+- to see the mounts type: mount or cat /proc/mounts
+
+## home directories
+- Each user has a home directory, usually placed under /home
+- The /root is the home directory of the root user
+- the /home directory infrastructure may be mounted as a separate filesystem on its own partition
+- or even exported (shared) remotely on a network through NFS
+- Sometimes, you may group users based on their department or function. 
+- You can then create subdirectories under the /home directory for each of these groups. 
+- For example, a school may organize /home with something like the following:
+/home/faculty/
+/home/staff/
+/home/students/
+
+## /bin and /sbin Directories
+- The /bin directory contains
+	- executable binaries
+	- essential commands used to boot the system
+	- or in single-user mode, and essential commands required by all system users, such as cat, cp, ls, mv, ps, and rm
+- Likewise, the /sbin directory is intended for essential binaries related to system administration, such as fsck and ip
+- To view a list of these programs, type: $ ls /bin /sbin
+
+## /usr/bin and /usr/sbin
+- Commands that are not essential (theoretically) for the system to boot or operate in single-user mode are placed here
+- on most Linux distributions today, /usr/bin and /bin are actually just symbolically linked together, 
+- as are /usr/sbin and /sbin, so there are really just two directories, not four.
+
+## The /proc Filesystem
+- Certain filesystems, like the one mounted at /proc, are called pseudo-filesystems
+- because they have no actual permanent presence anywhere on the disk.
+- The /proc filesystem contains virtual files (files that exist only in memory) that permit viewing constantly changing kernel data.
+- /proc contains files and directories that mimic kernel structures and configuration information. 
+- It does not contain real files, but runtime system information
+- e.g. system memory, devices mounted, hardware configuration, etc
+- Some important entries in /proc are:
+/proc/cpuinfo
+/proc/interrupts
+/proc/meminfo
+/proc/mounts
+/proc/partitions
+/proc/version
+
+- /proc has subdirectories as well, including:
+/proc/<Process-ID-#>
+/proc/sys
+
+- The first example shows there is a directory for every process running on the system,
+- The second example shows a virtual directory that contains a lot of information about the entire system,
+- in particular its hardware and configuration.
+- The /proc filesystem is very useful because the information it reports is gathered only as needed and never needs storage on the disk.
+
+## /dev Directory
+- /dev directory contains device nodes
+- udev creates and manages device nodes on Linux
+- example of a device node: /dev/sda1
+- this is the first partition on the first hard disk
+
+
+## /var directory
+- contains files that are expected to change in size and content as the system is running
+- some of its entries include:
+/var/log : system logs
+/var/lib : Packages and database files
+/var/spool : Print queues
+/var/tmp : Temporary files
+/var/ftp  : one of the Network services directory
+/var/www  : the HTTP web service
+
+
+## /etc
+- is the home for system configuration files
+- It contains no binary programs, although there are some executable scripts
+- /etc/resolv.conf tells the system where to go on the network to obtain host name to IP address mappings (DNS)
+- Files like passwd, shadow and group for managing user accounts are found in the /etc directory.
+- /etc is for system-wide configuration files and only the superuser can modify files there. 
+- User-specific configuration files are always found under their home directory
+
+
+## /boot
+- contains the few essential files needed to boot the system.
+	- vmlinuz : The compressed Linux kernel
+	- initramfs: The initial ram filesystem, sometimes called initrd
+	- config : The kernel configuration file, only used for debugging and bookkeeping
+	- System.map : Kernel symbol table, only used for debugging.
+- Each of these files has a kernel version appended to its name.
+- The Grand Unified Bootloader (GRUB) files such as /boot/grub/grub.conf or /boot/grub2/grub2.cfg are also found under the /boot directory.
+
+
+## /lib and /lib64
+- /lib contains libraries (common code shared by applications and needed for them to run)
+- for the essential programs in /bin and /sbin.
+- These library filenames either start with ld or lib. 
+- example, /lib/libncurses.so.5.9.
+- They also known as shared libraries or Shared Objects (SO)
+- On some Linux distributions there exists a /lib64 directory containing 64-bit libraries, while /lib contains 32-bit versions.
+- Kernel modules (kernel code, often device drivers, that can be loaded and unloaded without re-starting the system) are located in /lib/modules/<kernel-version-number>
+
+## /media, /run, /mnt
+- One often uses removable media, such as USB drives, CDs and DVDs
+- To make the material accessible through the regular filesystem, it has to be mounted at a convenient location. 
+- Most Linux systems are configured so any removable media are automatically mounted when the system notices something has been plugged in.
+- While historically this was done under the /media directory, modern Linux distributions place these mount points under the /run directory.
+- For example, a USB pen drive with a label myusbdrive for a user named student would be mounted at
+- /run/media/student/myusbdrive.
+- The /mnt directory has been used since the early days of UNIX for temporarily mounting filesystems.
+
+## other directories
+/opt : Optional application software packages
+/sys : Virtual pseudo-filesystem giving information about the system and the hardware
+Can be used to alter system parameters and for debugging purposes
+/srv : Site-specific data served up by the system Seldom used
+/tmp : Temporary files; on some distributions erased across a reboot and/or may actually be a ramdisk in memory
+/usr : Multi-user applications, utilities and data
+
+## /usr
+- The /usr directory tree contains theoretically non-essential programs and scripts
+
+/usr/include : Header files used to compile applications
+/usr/lib : Libraries for programs in /usr/bin and /usr/sbin
+/usr/lib64 : 64-bit libraries for 64-bit programs in /usr/bin and /usr/sbin
+/usr/sbin : Non-essential system binaries, such as system daemons, and scripts
+/usr/share : Shared data used by applications, generally architecture-independent
+/usr/src : Source code, usually for the Linux kernel
+/usr/local : Data and programs specific to the local machine; subdirectories include bin, sbin, lib, share, include, etc.
+/usr/bin : This is the primary directory of executable programs and scripts

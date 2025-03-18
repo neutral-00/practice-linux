@@ -1,0 +1,133 @@
+
+## vim
+- When using vi, all commands are entered through the keyboard.
+- To use a pointer device such as a mouse or touchpad use one of the graphical versions of the editor
+- GNOME extends vi with a very graphical interface known as gvim and KDE offers kvim
+- Typing vimtutor launches a short but very comprehensive tutorial.
+- Learning tip: Learn by usage. Do not try to memorize.
+
+
+## Modes and Features
+- Command
+	- By default, vi starts in Command mode.
+	- Each key is an editor command.
+	- Keyboard strokes are interpreted as commands that can modify file contents.
+	
+- Insert
+	- Type i to switch to Insert mode from Command mode.
+	- Insert mode is used to enter (insert) text into a file.
+	- Insert mode is indicated by an “? INSERT ?” indicator at the bottom of the screen.
+	- Press Esc to exit Insert mode and return to Command mode.
+
+- Line
+	- Type : to switch to the Line mode from Command mode. 
+	- Each key is an external command, including operations such as writing the file contents to disk or exiting.
+	- Uses line editing commands inherited from older line editors.
+	- Most of these commands are actually no longer used.
+	- Some line editing commands are very powerful.
+	- Press Esc to exit Line mode and return to Command mode.
+
+
+## Important commands used to start, exit, read, and write files in vi
+- The ENTER key needs to be pressed after all of these commands
+
+vi myfile		: 	Start the editor and edit myfile
+vi -r myfile 	:	Start and edit myfile in recovery mode from a system crash
+:r file2		:	Read in file2 and insert at current position
+:w				:	Write to the file
+:w myfile		:	Write out to myfile
+:w! file2		:	Overwrite file2
+:x or :wq		:	Exit and write out modified file
+:q				:	Quit
+:q!				: 	Quit even though modifications have not been saved
+
+## Changing Cursor Positions
+
+|-------------------|---------------------------------------------------|
+|	Key				|	Usage											|
+|-------------------|---------------------------------------------------|
+|	Arrow keys		|	To move up, down, left and right				|
+|-------------------|---------------------------------------------------|
+|	j or <ret>		|	To move one line down							|
+|-------------------|---------------------------------------------------|
+|	k				|	To move one line up								|
+|-------------------|---------------------------------------------------|
+|	h or Backspace	|	To move one character left						|
+|-------------------|---------------------------------------------------|
+|	l or Space		|	To move one character right						|
+|-------------------|---------------------------------------------------|
+|	0				|	To move to beginning of line					|
+|-------------------|---------------------------------------------------|
+|	$				|	To move to end of line							|
+|-------------------|---------------------------------------------------|
+|	w				|	To move to beginning of next word				|
+|-------------------|---------------------------------------------------|
+|	:0 or 1G		|	To move to beginning of file					|
+|-------------------|---------------------------------------------------|
+|	:n or nG		|	To move to line n								|
+|-------------------|---------------------------------------------------|
+|	:$ or G			|	To move to last line in file					|
+|-------------------|---------------------------------------------------|
+|	CTRL-F/Page Down|	To move forward one page						|
+|-------------------|---------------------------------------------------|
+|	CTRL-B/Page Up	|	To move backward one page						|
+|-------------------|---------------------------------------------------|
+|	^l				|	To refresh and center screen					|
+|-------------------|---------------------------------------------------|
+
+## Searching for Text in vi
+- /pattern		:		Search forward for pattern
+- ?pattern		:		Search backward for pattern
+- The ENTER key should be pressed after typing the search pattern.
+- below are the keystrokes used to navigate around the search reasults
+- n		:		Move to next occurrence of search pattern
+- N		:		Move to previous occurrence of search pattern
+
+
+## Working with Text
+- below are the key and usage
+- a				:			Append text after cursor
+- A				:			Append text after cursor
+- i				:			Insert text before cursor
+- I				:			Insert text at beginning of current line
+- o				:			Start a new line below current line
+- O				:			Start a new line above current line
+- r				:			Replace character at current position
+- R				:			Replace text starting with current position; stop upon Escape key
+- x				:			Delete character at current position
+- Nx			:			Delete N characters, starting at current position
+- dw			:			Delete the word at the current position
+- D				:			Delete the rest of the current line
+- dd			:			Delete the current line
+- Ndd or dNd	:			Delete N lines
+- u				:			Undo the previous operation
+- yy			:			Yank (copy) the current line and put it in buffer
+- Nyy or yNy	:			Yank (copy) N lines and put it in buffer
+- p				:			Paste at the current position the yanked line or lines from the buffer
+
+
+## Using External Commands
+- Typing sh command opens an external command shell. When you exit the shell, you will resume your editing session.
+- Typing ! executes a command from within vi
+- This technique is best suited for non-interactive commands
+- The character % represents the file currently being edited
+- exercise:
+The following situation, where you may lose quite a bit of work before it is saved, is likely to come up sooner or later.
+
+Change the permissions on the file you have been editing to read-only, and open it for editing by doing:
+student:/tmp> chmod 444 myfile
+student:/tmp> vi myfile
+Delete the first line in the file by typing dd. You may see a brief error message, but the line will be deleted.
+Now let's try and save the modified file. Type :w. What happens?
+You can't save this file, can you? It is read-only! You should have gotten an error message at the bottom line of the screen telling you that the file is readonly.
+Perhaps you made lots of changes to this file in a long editing session. Is all your hard work lost? No!
+You have a couple of alternatives. The first one is that you can go out to the shell from your editor, change the permissions on the file, exit the shell and be returned to your editing session to save your file.
+Do this by typing :sh. This should give you a shell prompt. Now type the command:
+student:/tmp> chmod 644 myfile
+and then exit the shell with:
+student:/tmp> exit
+You should be returned to your vi editing session. You typically see an error message telling you that the file has changed. Type O (Shift+o) for OK.
+Now type :w! (note the added !). This file should be saved now!
+Another thing you could do is to write the contents of the file to a new file. The :w command can take an argument as the file name you want to save the file as. For example, you could type :w new_myfile to save all your changes to the file new_myfile.
+It is good to know these techniques because this will likely come up some time while you are working with Linux. Play around with both techniques and become comfortable with both.
+

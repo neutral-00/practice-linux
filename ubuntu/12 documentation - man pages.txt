@@ -1,0 +1,62 @@
+
+## Learning objective
+- find help/documentation pages for various commands and programs
+
+
+## man command
+- man is the command to find manuals
+- know how to use it 
+- open terminal and type: man man 
+
+
+## search by topic
+man -k printf
+apropos printf
+- apropos and man -k are synonyms
+- search the Linux man pages with a keyword 
+- in their name or description
+
+## search by section
+- use the syntax: man {n} {command}
+- here n is the section number
+- example
+
+## more info
+
+The man command in Linux is used to display the user manual of any command that we can run on the terminal. 
+It provides a detailed view of the command which includes 
+NAME, SYNOPSIS, DESCRIPTION, OPTIONS, EXIT STATUS, RETURN VALUES, ERRORS, FILES, VERSIONS, EXAMPLES, AUTHORS and SEE ALSO 
+Every manual is divided into the following sections:
+
+Section #	|	Types of pages contained
+------------|-----------------------------------------------------------|
+1		 	|	Executable programs or shell commands					|
+2			|	System calls (functions provided by the kernel)			|
+3			|	Library calls (functions within program libraries)		|
+4			|	Games													|
+5			|	Special files (usually found in /dev)					|
+6			|	File formats and conventions eg /etc/passwd				|
+7			|	Miscellaneous (including macro packages and conventions)|
+8			|	System administration commands (usually only for root)	|
+9			|	Kernel routines [Non standard]							|
+------------|-----------------------------------------------------------|
+
+To display the whole manual of the command, type:
+man [COMMAND NAME]
+
+The section numbers and their meanings are:
+
+1 User Commands: commands that can be executed by any user.
+2 System Calls: functions that are provided by the kernel.
+3 Library Functions: functions that are provided by the standard C library and other libraries.
+4 Special Files: files that are used to access devices, such as /dev/null.
+5 File Formats: descriptions of the formats of various files, such as /etc/passwd.
+6 Games: games and entertainment programs.
+7 Miscellaneous: miscellaneous topics, such as ascii and regex.
+8 System Administration: commands that are used for system administration, such as mount and useradd
+
+## view available commands in speific section
+- example see list of available commands in section 1
+man -s 1 -k ''
+
+

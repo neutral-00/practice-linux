@@ -1,0 +1,50 @@
+Kickstart.nvim: A lightweight and simple Neovim configuration that provides a good starting point. 
+It's single-file and fully documented1.
+Installation: Clone the repository and install dependencies:
+```sh
+# install pre-requisites
+sudo apt update
+sudo apt install git make unzip gcc
+# Install Additional Build Dependencies:
+sudo apt install ninja-build gettext libtool libtool-bin autoconf automake cmake g++ pkg-config unzip curl doxygen
+#Clone Neovim Repository:
+git clone https://github.com/neovim/neovim.git
+cd neovim
+# Checkout the Stable Branch:
+git checkout stable
+# Build Neovim:
+make CMAKE_BUILD_TYPE=Release
+sudo make install
+# After installing Neovim, set up the kickstart.nvim configuration:
+# Clone the Repository:
+git clone https://github.com/nvim-lua/kickstart.nvim ~/.config/nvim
+# Open Neovim to Install Plugins:
+nvim
+
+```
+
+## Next check how to setup a theme
+
+
+## Learn more about nvim 
+- after launching nvim type :Tutor <Enter>
+
+
+## install tokyonight theme
+- Open your Neovim configuration: Locate your init.lua file
+- This file is usually in ~/.config/nvim/ directory
+- tokyonight theme is already configured. you can search the init.lua
+- to switch to it type :Telescope colorscheme
+
+
+## install nerd-font
+- for more info visit: nerdfonts.com
+- will be installing jetbrains mono
+github url is: https://github.com/ryanoasis/nerd-fonts/tree/master/patched-fonts/JetBrainsMono
+```
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/JetBrains/JetBrainsMono/master/install_manual.sh)"
+```
+verify the installation
+```sh
+fc-list | grep "JetBrains"
+```

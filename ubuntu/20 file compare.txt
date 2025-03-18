@@ -1,0 +1,25 @@
+
+
+## Comparing Files with diff
+- diff is used to compare files and directories
+- see man diff for more details
+- options
+	-c : Provides a listing of differences that include three lines of context before and after the lines differing in content
+	-r : Used to recursively compare subdirectories, as well as the current directory
+	-i : Ignore the case of letters
+	-w : Ignore differences in spaces and tabs (white space)
+	-q : Be quiet: only report if files are different without listing the differences
+
+- syntax: type diff [options] <filename1> <filename2>
+- diff is meant to be used for text files; for binary files, one can use cmp
+- If you prefer, there are multiple graphical interfaces to diff, including diffuse, vimdiff, and meld.
+- You can compare three files at once using diff3, which uses one file as the reference basis for the other two.
+- The syntax for diff3 is as follows:
+$ diff3 MY-FILE COMMON-FILE YOUR-FILE
+- A patch file contains the deltas (changes) required to update an older version of a file to the new one.
+- The patch files are actually produced by running diff with the correct options, as in:
+- $ diff -Nur originalfile newfile > patchfile
+- To apply a patch, you can just do either of the two methods below:
+$ patch -p1 < patchfile
+$ patch originalfile patchfile
+- see the man page for patch.
